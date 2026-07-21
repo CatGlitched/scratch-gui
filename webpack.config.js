@@ -5,6 +5,7 @@ const webpack = require('webpack');
 // Plugins
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 // PostCss
 const autoprefixer = require('autoprefixer');
@@ -130,7 +131,10 @@ const base = {
                     force: true
                 }
             ]
-        })
+        }),
+        new Dotenv({
+            systemvars: true
+        }),
     ]
 };
 

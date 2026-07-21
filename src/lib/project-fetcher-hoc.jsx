@@ -25,7 +25,7 @@ import storage from './storage';
 import {ProjectUnsharedError, ProjectFetchError} from './tw-load-project-error';
 
 import VM from 'scratch-vm';
-import {fetchProjectMeta} from './tw-project-meta-fetcher-hoc.jsx';
+import {fetchProjectMeta} from './gc-project-meta-fetcher.jsx';
 
 // TW: Temporary hack for project tokens
 const fetchProjectToken = async projectId => {

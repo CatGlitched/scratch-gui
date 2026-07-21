@@ -1,7 +1,7 @@
 @import "../../css/colors.css";
 
 .share-button {
-    background: $data-primary;
+    box-shadow: 0 0 0 1px $ui-black-transparent;
 }
 
 .share-button-is-shared {

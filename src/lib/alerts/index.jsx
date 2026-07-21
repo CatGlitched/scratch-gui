@@ -264,6 +264,50 @@ const alerts = [
         maxDisplaySecs: 15
     },
     {
+        alertId: 'gcSharing',
+        alertType: AlertTypes.INLINE,
+        clearList: ['gcSharing', 'gcShareSuccess', 'gcShareError'],
+        content: (
+            <FormattedMessage
+                defaultMessage="Sharing project…"
+                description="Menu bar message indicating that a project is being uploaded to be shared"
+                id="gc.alerts.sharing"
+            />
+        ),
+        iconSpinner: true,
+        level: AlertLevels.INFO
+    },
+    {
+        alertId: 'gcShareSuccess',
+        alertType: AlertTypes.INLINE,
+        clearList: ['gcSharing', 'gcShareError'],
+        content: (
+            <FormattedMessage
+                defaultMessage="Project shared! Link copied to clipboard."
+                description="Menu bar message indicating that a project was successfully shared"
+                id="gc.alerts.shareSuccess"
+            />
+        ),
+        iconURL: successImage,
+        level: AlertLevels.SUCCESS,
+        maxDisplaySecs: 5
+    },
+    {
+        alertId: 'gcShareError',
+        alertType: AlertTypes.INLINE,
+        clearList: ['gcSharing', 'gcShareSuccess'],
+        closeButton: true,
+        content: (
+            <FormattedMessage
+                defaultMessage="Could not share the project. Please try again!"
+                description="Menu bar message indicating that a project could not be shared"
+                id="gc.alerts.shareError"
+            />
+        ),
+        level: AlertLevels.WARN,
+        maxDisplaySecs: 8
+    },
+    {
         alertId: 'importingAsset',
         alertType: AlertTypes.STANDARD,
         clearList: [],

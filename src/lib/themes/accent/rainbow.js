@@ -1,9 +1,9 @@
 const guiColors = {
-    'motion-primary': '#ff4c4c',
+    'motion-primary': '#ff5c77',
     'motion-primary-transparent': '#ff4c4ce6',
-    'motion-tertiary': '#cc3333',
+    'motion-tertiary': '#c73652',
 
-    'looks-secondary': '#ff4c4c',
+    'looks-secondary': '#ff5c77',
     'looks-transparent': '#ff4d4d59',
     'looks-light-transparent': '#ff4d4d26',
     'looks-secondary-dark': 'hsla(0, 42%, 51%, 1)',
@@ -20,8 +20,8 @@ const guiColors = {
 };
 
 const blockColors = {
-    checkboxActiveBackground: '#ff4c4c',
-    checkboxActiveBorder: '#cc3333'
+    checkboxActiveBackground: '#ff5c77',
+    checkboxActiveBorder: '#c73652'
 };
 
 export {

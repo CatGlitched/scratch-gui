@@ -23,7 +23,7 @@ import {FormattedMessage, defineMessages, injectIntl, intlShape} from 'react-int
 import {getIsLoading} from '../reducers/project-state.js';
 import AppStateHOC from '../lib/app-state-hoc.jsx';
 import ErrorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
-import TWProjectMetaFetcherHOC from '../lib/tw-project-meta-fetcher-hoc.jsx';
+import GCProjectMetaFetcherHOC from '../lib/gc-project-meta-fetcher.jsx';
 import TWStateManagerHOC from '../lib/tw-state-manager-hoc.jsx';
 import SBFileUploaderHOC from '../lib/sb-file-uploader-hoc.jsx';
 import TWPackagerIntegrationHOC from '../lib/tw-packager-integration-hoc.jsx';
@@ -263,7 +263,7 @@ class Interface extends React.Component {
                                 <BrowserModal isRtl={isRtl} />
                             )}
                             <div className={styles.section}>
-                                <ProjectInput />
+                                {/* <ProjectInput /> */}
                             </div>
                             {(
                                 // eslint-disable-next-line max-len
@@ -340,9 +340,9 @@ class Interface extends React.Component {
                                     />
                                 </p>
                             </div>
-                            <div className={styles.section}>
+                            {/* <div className={styles.section}>
                                 <FeaturedProjects studio="27205657" />
-                            </div>
+                            </div> */}
                         </React.Fragment>
                     ) : null}
                 </div>
@@ -391,7 +391,7 @@ const ConnectedInterface = injectIntl(connect(
 const WrappedInterface = compose(
     AppStateHOC,
     ErrorBoundaryHOC('TW Interface'),
-    TWProjectMetaFetcherHOC,
+    GCProjectMetaFetcherHOC,
     TWStateManagerHOC,
     TWPackagerIntegrationHOC
 )(ConnectedInterface);

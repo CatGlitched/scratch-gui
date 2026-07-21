@@ -17,6 +17,7 @@ const SET_HAS_CLOUD_VARIABLES = 'tw/SET_HAS_CLOUD_VARIABLES';
 const SET_CLOUD_HOST = 'tw/SET_CLOUD_HOST';
 const SET_PLATFORM_MISMATCH_DETAILS = 'tw/SET_PLATFORM_MISMATCH_DETAILS';
 const SET_PROJECT_ERROR = 'tw/SET_PROJECT_ERROR';
+const SET_PROJECT_META = 'gc/SET_PROJECT_META';
 
 export const initialState = {
     framerate: 30,
@@ -43,6 +44,7 @@ export const initialState = {
         instructions: '',
         credits: ''
     },
+    projectMeta: null,
     compileErrors: [],
     fileHandle: null,
     usernameInvalid: false,
@@ -97,6 +99,10 @@ const reducer = function (state, action) {
     case SET_AUTHOR:
         return Object.assign({}, state, {
             author: action.author
+        });
+    case SET_PROJECT_META:
+        return Object.assign({}, state, {
+            projectMeta: action.projectMeta
         });
     case SET_DESCRIPTION:
         return Object.assign({}, state, {
@@ -278,6 +284,13 @@ const setProjectError = function (projectError) {
     };
 };
 
+const setProjectMeta = function (projectMeta) {
+    return {
+        type: SET_PROJECT_META,
+        projectMeta
+    };
+};
+
 export {
     reducer as default,
     initialState as twInitialState,
@@ -299,5 +312,6 @@ export {
     setHasCloudVariables,
     setCloudHost,
     setPlatformMismatchDetails,
-    setProjectError
+    setProjectError,
+    setProjectMeta
 };

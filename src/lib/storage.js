@@ -2,6 +2,8 @@ import ScratchStorage from '@turbowarp/scratch-storage';
 
 import defaultProject from './default-project';
 
+import { API_URL, CDN_URL } from './constants';
+
 /**
  * Wrapper for ScratchStorage which adds default web sources.
  * @todo make this more configurable
@@ -26,6 +28,16 @@ class Storage extends ScratchStorage {
             // asset store uses the assetId as part of the create URI.
             this.getAssetCreateConfig.bind(this),
             this.getAssetCreateConfig.bind(this)
+        );
+    }
+    addGlitchCatWebStores () {
+        this.addWebStore(
+            [this.AssetType.Project],
+            asset => `${API_URL}/projects/${asset.assetId}`
+        );
+        this.addWebStore(
+            [this.AssetType.ImageVector, this.AssetType.ImageBitmap, this.AssetType.Sound, this.AssetType.Font],
+            asset => `${CDN_URL}/assets/${asset.assetId}.${asset.dataFormat}`
         );
     }
     setProjectHost (projectHost) {

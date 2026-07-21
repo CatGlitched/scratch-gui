@@ -138,7 +138,10 @@ GUI.propTypes = {
 GUI.defaultProps = {
     isScratchDesktop: false,
     isTotallyNormal: false,
-    onStorageInit: storageInstance => storageInstance.addOfficialScratchWebStores(),
+    onStorageInit: storageInstance => {
+        storageInstance.addGlitchCatWebStores();
+        storageInstance.addOfficialScratchWebStores()
+    },
     onProjectLoaded: () => {},
     onUpdateProjectId: () => {},
     onVmInit: (/* vm */) => {}
