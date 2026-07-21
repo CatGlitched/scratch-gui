@@ -1,0 +1,12 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/:id(\\d+)", "destination": "/index.html" },
+    { "source": "/:id(\\d+)/fullscreen", "destination": "/fullscreen.html" },
+    { "source": "/:id(\\d+)/editor", "destination": "/editor.html" },
+    { "source": "/:id(\\d+)/embed", "destination": "/embed.html" },
+    { "source": "/editor", "destination": "/editor.html" },
+    { "source": "/fullscreen", "destination": "/fullscreen.html" },
+    { "source": "/addons", "destination": "/addons.html" }
+  ]
+}
