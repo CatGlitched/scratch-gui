@@ -45,6 +45,8 @@ const base = {
                 {from: /^\/\d+\/fullscreen\/?$/, to: '/fullscreen.html'},
                 {from: /^\/\d+\/editor\/?$/, to: '/editor.html'},
                 {from: /^\/\d+\/embed\/?$/, to: '/embed.html'},
+                {from: /^\/fullscreen\/?$/, to: '/fullscreen.html'},
+                {from: /^\/editor\/?$/, to: '/editor.html'},
                 {from: /^\/addons\/?$/, to: '/addons.html'}
             ]
         }
