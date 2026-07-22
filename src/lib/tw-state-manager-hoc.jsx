@@ -60,7 +60,7 @@ const getLocalStorage = key => {
 };
 
 const readHashProjectId = () => {
-    const match = location.hash.match(/#(\d+)/);
+    const match = location.hash.match(/#([0-9a-fA-F]+)/);
     return match === null ? null : match[1];
 };
 
@@ -202,7 +202,9 @@ class WildcardRouter extends Router {
             }
         };
 
-        if (+parts[0] && Number.isFinite(+parts[0])) {
+        const isValidProjectId = id => /^[0-9a-fA-F]+$/.test(id);
+
+        if (isValidProjectId(parts[0])) {
             parseProjectId(parts[0]);
             parsePageType(parts[1]);
         } else {
