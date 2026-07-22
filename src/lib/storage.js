@@ -33,7 +33,7 @@ class Storage extends ScratchStorage {
     addGlitchCatWebStores () {
         this.addWebStore(
             [this.AssetType.Project],
-            asset => `${API_URL}/projects/${asset.assetId}`
+            asset => `${CDN_URL}/projects/${asset.assetId}/project.json`
         );
         this.addWebStore(
             [this.AssetType.ImageVector, this.AssetType.ImageBitmap, this.AssetType.Sound, this.AssetType.Font],
