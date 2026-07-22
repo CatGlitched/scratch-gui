@@ -93,9 +93,6 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                     })
                     .then(buffer => ({data: buffer}));
             } else if (projectId === '0' || projectId === 0) {
-                // The default/blank project isn't a real project on the server, so
-                // don't try to fetch metadata for it -- just load it directly, which
-                // resolves locally via storage's builtin cache (see storage.js).
                 assetPromise = storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON)
                     .catch(err => {
                         throw new ProjectFetchError(`Could not load default project: ${err}`);
