@@ -22,7 +22,9 @@ import {
 
 import log from './log';
 import storage from './storage';
-import {ProjectFetchError} from './gc-load-project-error';
+import {ProjectFetchError} from './tw-load-project-error';
+import {ProjectNotFoundError} from './gc-load-project-error';
+import {fetchProjectMeta} from './gc-project-meta-fetcher.jsx';
 
 import VM from 'scratch-vm';
 
@@ -90,9 +92,27 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                         return r.arrayBuffer();
                     })
                     .then(buffer => ({data: buffer}));
-            } else {
+            } else if (projectId === '0' || projectId === 0) {
+                // The default/blank project isn't a real project on the server, so
+                // don't try to fetch metadata for it -- just load it directly, which
+                // resolves locally via storage's builtin cache (see storage.js).
                 assetPromise = storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON)
                     .catch(err => {
+                        throw new ProjectFetchError(`Could not load default project: ${err}`);
+                    });
+            } else {
+                assetPromise = fetchProjectMeta(projectId)
+                    .catch(err => {
+                        if (err && err.status === 404) {
+                            throw new ProjectNotFoundError(`Project not found: ${projectId}`);
+                        }
+                        throw new ProjectFetchError(`Could not fetch project metadata: ${err}`);
+                    })
+                    .then(() => storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON))
+                    .catch(err => {
+                        if (err instanceof ProjectNotFoundError) {
+                            throw err;
+                        }
                         throw new ProjectFetchError(`Could not load project: ${err}`);
                     });
             }
