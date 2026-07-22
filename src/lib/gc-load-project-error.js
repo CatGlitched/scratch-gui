@@ -7,6 +7,6 @@ class ProjectNotFoundError extends LoadProjectError {
     }
 }
 
-module.exports = {
+export {
     ProjectNotFoundError
 };
