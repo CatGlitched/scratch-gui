@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import VM from 'scratch-vm';
 
 import ShareButton from '../components/menu-bar/share-button.jsx';
+import GCShareModal from '../components/menu-bar/gc-share-modal.jsx';
+import dataURItoBlob from '../lib/data-uri-to-blob.js';
 import log from '../lib/log';
 import {shareProject} from '../lib/glitchcat/api';
 import {showAlertWithTimeout, showStandardAlert} from '../reducers/alerts';
@@ -18,16 +20,87 @@ class GCShareButton extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'handleClick'
+            'handleClick',
+            'handleCancel',
+            'handleConfirm',
+            'handleChangeTitle',
+            'handleChangeThumbnail'
         ]);
         this.state = {
             sharing: false,
             shareId: null,
-            shareUrl: null
+            shareUrl: null,
+            modalOpen: false,
+            title: props.projectTitle,
+            thumbnailFile: null,
+            thumbnailPreview: null
         };
     }
-    async handleClick () {
+
+    /**
+     * Captures a snapshot of the current stage to use as the default
+     * thumbnail, matching the approach used for backpack/save thumbnails.
+     * @param {function(?string)} callback - called with a data URI, or null on failure.
+     */
+    captureDefaultThumbnail (callback) {
+        try {
+            this.props.vm.postIOData('video', {forceTransparentPreview: true});
+            this.props.vm.renderer.requestSnapshot(dataURI => {
+                this.props.vm.postIOData('video', {forceTransparentPreview: false});
+                callback(dataURI);
+            });
+            this.props.vm.renderer.draw();
+        } catch (e) {
+            log.error('Could not capture project thumbnail', e);
+            callback(null);
+        }
+    }
+
+    handleClick () {
         if (this.state.sharing || !this.props.canSaveProject) {
+            return;
+        }
+
+        this.captureDefaultThumbnail(dataURI => {
+            this.setState({
+                modalOpen: true,
+                title: this.props.projectTitle,
+                thumbnailFile: null,
+                thumbnailPreview: dataURI
+            });
+        });
+    }
+
+    handleCancel () {
+        if (this.state.sharing) return;
+        this.setState({
+            modalOpen: false,
+            thumbnailFile: null,
+            thumbnailPreview: null
+        });
+    }
+
+    handleChangeTitle (e) {
+        this.setState({title: e.target.value});
+    }
+
+    handleChangeThumbnail (e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.setState({
+                thumbnailFile: file,
+                thumbnailPreview: reader.result
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async handleConfirm () {
+        const title = this.state.title.trim();
+        if (this.state.sharing || !title) {
             return;
         }
 
@@ -36,15 +109,22 @@ class GCShareButton extends React.Component {
 
         try {
             const projectSb3 = await this.props.vm.saveProjectSb3();
+            const thumbnail = this.state.thumbnailFile ||
+                (this.state.thumbnailPreview ? dataURItoBlob(this.state.thumbnailPreview) : null);
+
             const result = await shareProject(projectSb3, {
-                title: this.props.projectTitle,
-                projectId: this.state.shareId
+                title,
+                projectId: this.state.shareId,
+                thumbnail
             });
 
             this.setState({
                 sharing: false,
+                modalOpen: false,
                 shareId: result.id,
-                shareUrl: result.url
+                shareUrl: result.url,
+                thumbnailFile: null,
+                thumbnailPreview: null
             });
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -59,6 +139,7 @@ class GCShareButton extends React.Component {
             this.props.onShowShareErrorAlert();
         }
     }
+
     render () {
         const {
             /* eslint-disable no-unused-vars */
@@ -72,11 +153,24 @@ class GCShareButton extends React.Component {
             ...props
         } = this.props;
         return (
-            <ShareButton
-                {...props}
-                isShared={Boolean(this.state.shareId)}
-                onClick={this.handleClick}
-            />
+            <React.Fragment>
+                <ShareButton
+                    {...props}
+                    isShared={Boolean(this.state.shareId)}
+                    onClick={this.handleClick}
+                />
+                {this.state.modalOpen && (
+                    <GCShareModal
+                        sharing={this.state.sharing}
+                        thumbnailPreview={this.state.thumbnailPreview}
+                        title={this.state.title}
+                        onCancel={this.handleCancel}
+                        onChangeThumbnail={this.handleChangeThumbnail}
+                        onChangeTitle={this.handleChangeTitle}
+                        onConfirm={this.handleConfirm}
+                    />
+                )}
+            </React.Fragment>
         );
     }
 }

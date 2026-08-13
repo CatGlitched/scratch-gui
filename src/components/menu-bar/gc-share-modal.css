@@ -1,0 +1,114 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.modal-content {
+    width: 400px;
+}
+
+.body {
+    background: $ui-modal-background;
+    padding: 1.5rem 2.25rem;
+}
+
+.field {
+    margin-bottom: 1.25rem;
+}
+
+.field:last-of-type {
+    margin-bottom: 0;
+}
+
+.label {
+    display: block;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+}
+
+.title-input {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 5px;
+    padding: 0 1rem;
+    height: 3rem;
+    color: $text-primary-transparent;
+    background-color: $input-background;
+    font-size: .875rem;
+}
+
+.thumbnail-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.thumbnail-preview,
+.thumbnail-placeholder {
+    width: 120px;
+    height: 90px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    border: 1px solid $ui-black-transparent;
+    background-color: $input-background;
+    object-fit: cover;
+}
+
+.choose-image-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    border-radius: 0.25rem;
+    background: white;
+    color: black;
+    border: 1px solid $ui-black-transparent;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.button-row {
+    margin-top: 1.5rem;
+    font-weight: bolder;
+    text-align: right;
+}
+
+.button-row button {
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    background: white;
+    color: black;
+    border: 1px solid $ui-black-transparent;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.button-row button.ok-button {
+    background: $looks-secondary;
+    border: $looks-secondary;
+    color: white;
+}
+
+.button-row button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+[dir="ltr"] .button-row button + button {
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .button-row button + button {
+    margin-right: 0.5rem;
+}

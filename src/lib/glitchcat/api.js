@@ -63,16 +63,21 @@ const fetchProjectMeta = async projectId => {
  * @param {string} [meta.title] - the project's title.
  * @param {string} [meta.projectId] - an existing GlitchCat project id to update
  * instead of creating a brand new project.
+ * @param {Blob} [meta.thumbnail] - a thumbnail image (png/jpeg/webp/gif) to
+ * store alongside the project.
  * @returns {Promise<{id: string, url: string}>} the id of the created/updated
  * project and a shareable URL pointing at it.
  */
 const shareProject = async (projectSb3, meta = {}) => {
-    const {title, projectId} = meta;
+    const {title, projectId, thumbnail} = meta;
 
     const formData = new FormData();
     formData.append('project', projectSb3, 'project.sb3');
     if (title) {
         formData.append('title', title);
+    }
+    if (thumbnail) {
+        formData.append('thumbnail', thumbnail, 'thumbnail.png');
     }
 
     const isUpdate = Boolean(projectId);
@@ -109,7 +114,7 @@ const shareProject = async (projectSb3, meta = {}) => {
 
     return {
         id: data.id.toString(),
-        url: `${GC_SITE_URL}/${data.id}`
+        url: `${GC_SITE_URL}/project/${data.id}`
     };
 };
 
