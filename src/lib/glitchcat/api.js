@@ -28,7 +28,7 @@ const fetchProjectMeta = async projectId => {
     let firstError;
     for (const source of sources) {
         try {
-            const res = await fetch(source.url);
+            const res = await fetch(source.url, {credentials: 'include'});
             if (res.status === 404) {
                 if (!firstError) {
                     firstError = new GCApiError('Project not found', {status: 404, source: source.name});
