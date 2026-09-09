@@ -37,6 +37,10 @@
     align-items: center;
 }
 
-.stage-wrapper.embedded {
+.stage-wrapper.embedded.loading {
     background-color: transparent;
+}
+
+.stage-wrapper.embedded:not(.loading) {
+    background-color: #23232F;
 }

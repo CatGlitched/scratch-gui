@@ -12,10 +12,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $menu-bar-background;
+    background-color: transparent;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
-    color: white;
+    color: var(--text-primary);
 }
 
 .fullscreen {
